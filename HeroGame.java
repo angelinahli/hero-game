@@ -114,10 +114,13 @@ public class HeroGame extends JPanel {
 
         public void clearMonsters() {
             Vector<Monster> newMonsters = new Vector<Monster>();
-            for (Monster monster : monsters)
-                if (monster.getTopY() >= HEIGHT) {
-                    newMonsters.remove(monster);
-                }
+            
+            int numMonsters = (HEIGHT / (difficulty*HERO_SIZE)) + 10;
+            int count = 0;
+            for (int i = monsters.size() - 1; i >= 0 && count < numMonsters; i--) {
+                newMonsters.add(monsters.get(i));
+                count++;
+            }
             monsters = newMonsters;
         }
         
@@ -125,16 +128,21 @@ public class HeroGame extends JPanel {
             
             if (event.getSource() == timer) {
                 int xPos = rand.nextInt(WIDTH - (difficulty*HERO_SIZE));
+                
                 monsters.add(new Monster(xPos, BORDER, difficulty*HERO_SIZE, VILLAIN_COLOR));
-                for (Monster monster : monsters) {
+                
+                for (Monster monster : monsters)
                     monster.moveDown();
-                }
+
                 checkDied();
-                score += difficulty*5;
                 time++;
-                if (time % 100 == 0) {
+                score += difficulty*5;
+
+                if (time % 50 == 0)
+                    clearMonsters();
+
+                if (time % 100 == 0)
                     difficulty ++;
-                }
             }
         }
 
