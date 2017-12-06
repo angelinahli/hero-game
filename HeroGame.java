@@ -36,7 +36,7 @@ public class HeroGame extends JPanel {
         rand = new Random(100);
         difficulty = 1;
         score = 0;
-        timer = new Timer(1000/difficulty, new TimerListener());
+        timer = new Timer(400, new TimerListener());
         died = false;
 
         setBorder(BorderFactory.createLineBorder(BORDER_COLOR, BORDER));
@@ -132,10 +132,8 @@ public class HeroGame extends JPanel {
                 checkDied();
                 score += difficulty*5;
                 time++;
-                if (time % 30 == 0) {
+                if (time % 100 == 0) {
                     difficulty ++;
-                    timer.setDelay(1000/difficulty);
-                    clearMonsters();
                 }
             }
         }
